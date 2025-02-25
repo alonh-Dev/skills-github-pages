@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תצוגת עיצוב פנים מודרני בקונספט פתוח</title>
+    <style>
+        :root {
+            --primary-color: #f8f9fa;
+            --secondary-color: #212529;
+            --accent-color: #6c757d;
+            --hover-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            background-color: var(--primary-color);
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 20px;
+            font-weight: 400;
+            color: var(--secondary-color);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+        
+        button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .design-card {
+            background-color: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .design-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .design-img {
+            width: 100%;
+            height: 250px;
+            background-color: #dee2e6;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .design-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .design-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .design-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .design-category {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .design-features {
+            margin-bottom: 15px;
+        }
+        
+        .design-features h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .design-features ul {
+            list-style-type: none;
+            padding-right: 0;
+        }
+        
+        .design-features li {
+            padding: 3px 0;
+            font-size: 0.95rem;
+        }
+        
+        .design-description {
+            margin-top: auto;
+            font-size: 0.95rem;
+            color: #495057;
+            line-height: 1.5;
+        }
+        
+        .accent-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .design-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>עיצוב פנים מודרני בקונספט פתוח</h1>
+        <p class="subtitle">תצוגה של חללים מינימליסטיים בהשפעות אמנותיות</p>
+    </header>
+    
+    <div class="controls">
+        <button id="sort-btn">מיון לפי אמן</button>
+    </div>
+    
+    <div class="design-grid" id="design-container">
+        <!-- Design cards will be inserted here by JavaScript -->
+    </div>
+    
+    <footer>
+        <p>קטלוג עיצוב פנים מודרני בקונספט פתוח © 2025</p>
+    </footer>
+    
+    <script>
+        // Design data from the catalog with image filenames
+        const designs = [
+            {
+                artist: "ז'אצק ירקה",
+                artistEn: "Jacek Yerka",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "אלמנטים בצבע לבן", "ריהוט מינימליסטי לבן"],
+                description: "תאורה אדריכלית מפורטת מאוד עם רינדור היפר-ריאליסטי יוצרת אווירה מרווחת ואלגנטית בסגנון הסוריאליסטי החלומי של הצייר הפולני ז'אצק ירקה.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#ffffff",
+                imageName: "2025-02-25_15-03-37_3886.png"
+            },
+            {
+                artist: "סר ג'יימס גאתרי",
+                artistEn: "Sir James Guthrie",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע פוקסיה", "ריהוט מינימליסטי לבן"],
+                description: "הגישה האימפרסיוניסטית של הצייר הסקוטי מביאה טקסטורה ועומק עדינים לחלל המינימליסטי העכשווי, כאשר דגשי הפוקסיה יוצרים נקודות מוקד דרמטיות.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#FF00FF",
+                imageName: "2025-02-25_15-03-31_8551.png"
+            },
+            {
+                artist: "בריאן משבורן",
+                artistEn: "Brian Mashburn",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע כסף", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת נופיו האטמוספריים של משבורן, עיצוב זה יוצר אלגנטיות אפלולית עם דגשי כסף על רקע היסוד הלבן הטהור.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#C0C0C0",
+                imageName: "2025-02-25_15-03-25_5552.png"
+            },
+            {
+                artist: "הוראס פיפין",
+                artistEn: "Horace Pippin",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע לבן", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת הפשטות והאקספרסיביות של האמן האמריקאי האוטודידקט פיפין, עיצוב מונוכרומטי זה מסתמך על וריאציה של טקסטורה ותאורה אדריכלית ליצירת עניין חזותי.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#FFFFFF",
+                imageName: "2025-02-25_15-03-20_6973.png"
+            },
+            {
+                artist: "ויויאן מאייר",
+                artistEn: "Vivian Maier",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע אפור", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת סגנון הצילום התיעודי של מאייר, לחלל זה יש אלגנטיות אותנטית ומאופקת עם דגשים אפורים המספקים ניגודיות עדינה.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#808080",
+                imageName: "2025-02-25_15-03-14_3357.png"
+            },
+            {
+                artist: "אלזה בלדה",
+                artistEn: "Elsa Bleda",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע אדום", "ריהוט מינימליסטי לבן"],
+                description: "השפעת הצילום הקולנועי של בלדה יוצרת חלל דרמטי ואפלולי עם דגשים אדומים נועזים המשמשים כפיסוק חזותי.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#FF0000",
+                imageName: "2025-02-25_15-03-09_1766.png"
+            },
+            {
+                artist: "מרגרט מקדונלד מקינטוש",
+                artistEn: "Margaret Macdonald Mackintosh",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע כחול-נייבי", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת האסתטיקה של האר-נובו של האמנית הסקוטית, עיצוב זה משלב דגשי כחול-נייבי מעודנים עם דגש על קו ופרופורציה אלגנטיים.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#000080",
+                imageName: "2025-02-25_15-03-03_6597.png"
+            },
+            {
+                artist: "דזמונד מוריס",
+                artistEn: "Desmond Morris",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע כסף", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת עבודתו של הצייר הסוריאליסטי והזואולוג, עיצוב זה יוצר מיזוג בלתי צפוי של מינימליזם נקי עם השפעות ביומורפיות.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#C0C0C0",
+                imageName: "2025-02-25_15-02-58_8427.png"
+            },
+            {
+                artist: "ג'יימס לי ביירס",
+                artistEn: "James Lee Byars",
+                space: "80 מ\"ר חלל בקונספט פתוח (סלון 60 מ\"ר + מטבח 20 מ\"ר)",
+                features: ["רצפת אפוקסי לבנה חלקה", "דגשים אסטרטגיים בצבע כתום", "ריהוט מינימליסטי לבן"],
+                description: "בהשראת חקירת הצורה המושלמת של האמן הקונספטואלי, חלל זה מאזן בין טוהר מינימליסטי לבין דגשי כתום תוססים המוסיפים חמימות ואנרגיה.",
+                category: "חללים מרווחים בקונספט פתוח",
+                accentColor: "#FFA500",
+                imageName: "2025-02-25_15-02-53_3219.png"
+            },
+            {
+                artist: "יאן פיטרז סנרדם",
+                artistEn: "Jan Pietersz Saenredam",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע שחור", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת הדיוק האדריכלי של הצייר מתקופת הזהב ההולנדית, עיצוב זה מציג קווים נקיים ופרופורציות מושלמות כאשר הגידים השחורים העדינים מוסיפים עומק מתוחכם.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#000000",
+                imageName: "2025-02-25_15-01-54_6862.png"
+            },
+            {
+                artist: "היינריך קליי",
+                artistEn: "Heinrich Kley",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע כחול-סגול", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת הדמיון הפנטסטי של המאייר הגרמני, חלל זה שומר על משמעת מינימליסטית בעוד שהגידים בצבע כחול-סגול מוסיפים עניין חזותי בלתי צפוי.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#8A2BE2",
+                imageName: "2025-02-25_15-01-49_8779.png"
+            },
+            {
+                artist: "טניה שצבה",
+                artistEn: "Tanya Shatseva",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע מג'נטה", "ריהוט מודרני יוקרתי"],
+                description: "הסגנון התוסס של הסוריאליסטית העכשווית מתורגם לגידים עדינים בצבע מג'נטה היוצרים איכות חלומית בתוך המסגרת המינימליסטית המשמעתית.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#FF00FF",
+                imageName: "2025-02-25_15-01-43_9941.png"
+            },
+            {
+                artist: "ג'ון ויין גייסי",
+                artistEn: "John Wayne Gacy",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע לבן", "ריהוט מודרני יוקרתי"],
+                description: "מחקר במינימליזם מונוכרומטי עם גידים עדינים בצבע לבן-על-לבן היוצרים חלל טהור ומהורהר המתמקד בצורה ובאור.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#FFFFFF",
+                imageName: "2025-02-25_15-01-38_6042.png"
+            },
+            {
+                artist: "פרדריק מקובין",
+                artistEn: "Frederick McCubbin",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע לבן", "ריהוט מודרני יוקרתי"],
+                description: "הרגישות האטמוספרית של האימפרסיוניסט האוסטרלי מעוררת השראה לחלל שבו אינטראקציית האור עם משטחים לבן-על-לבן יוצרת עומק ווריאציה עדינים.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#FFFFFF",
+                imageName: "2025-02-25_15-01-33_3316.png"
+            },
+            {
+                artist: "כריסטוף ז'קרו",
+                artistEn: "Christophe Jacrot",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע אפור בהיר", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת סצנות מזג האוויר הדרמטיות של הצלם, עיצוב זה משתמש בגידים בצבע אפור בהיר כדי לעורר איכות אטמוספרית עדינה בתוך החלל הלבן המינימלי.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#D3D3D3",
+                imageName: "2025-02-25_15-01-27_3313.png"
+            },
+            {
+                artist: "דו הו סו",
+                artistEn: "Do Ho Suh",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע סגול-אדום חיוור", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת חקירת החלל והשקיפות של הפסל הקוריאני, עיצוב זה מציג גידים עדינים בצבע סגול-אדום היוצרים איכות אתרית.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#DB7093",
+                imageName: "2025-02-25_15-01-22_2078.png"
+            },
+            {
+                artist: "גרטרוד קזבייר",
+                artistEn: "Gertrude Käsebier",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע כחול בהיר", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת האסתטיקה של הפוקוס הרך של הצלמת החלוצה, חלל זה מציג גידים עדינים בצבע כחול בהיר היוצרים אווירה חלומית ומהורהרת.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#ADD8E6",
+                imageName: "2025-02-25_15-01-16_2335.png"
+            },
+            {
+                artist: "יוסף קוטה",
+                artistEn: "Josef Kote",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע כתום-אדום", "ריהוט מודרני יוקרתי"],
+                description: "הפלטה התוססת ומשיכות המכחול האנרגטיות של האימפרסיוניסט העכשווי מעוררות השראה לגידים הדינמיים בצבע כתום-אדום המוסיפים חיוניות לחלל המינימלי הזה.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#FF4500",
+                imageName: "2025-02-25_15-01-11_1900.png"
+            },
+            {
+                artist: "איאן דאוונפורט",
+                artistEn: "Ian Davenport",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע ירוק-ים", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת ציורי הנזילה של האמן העכשווי, הגידים בצבע ירוק-ים יוצרים דפוסים זורמים ואורגניים בתוך החלל הגיאומטרי הקפדני.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#2E8B57",
+                imageName: "2025-02-25_15-00-14_6081.png"
+            },
+            {
+                artist: "קנדידו פורטינארי",
+                artistEn: "Candido Portinari",
+                space: "סלון בגודל 60 מ\"ר",
+                features: ["רצפת אפוקסי לבנה מבריקה עם גידים עדינים בצבע חאקי כהה", "ריהוט מודרני יוקרתי"],
+                description: "בהשראת הפלטה האדמתית של המודרניסט הברזילאי, הגידים בצבע חאקי כהה מוסיפים אלמנט טבעי מחבר לסביבה הלבנה הטהורה.",
+                category: "חללי סלון ממוקדים",
+                accentColor: "#BDB76B",
+                imageName: "2025-02-25_14-59-45_2975.png"
+            }
+        ];
+        
+        // Function to create design cards
+        function createDesignCards(designsArray) {
+            const container = document.getElementById('design-container');
+            container.innerHTML = '';
+            
+            designsArray.forEach(design => {
+                const card = document.createElement('div');
+                card.className = 'design-card';
+                
+                const designImg = document.createElement('div');
+                designImg.className = 'design-img';
+                
+                // Create image element with the actual image path
+                const img = document.createElement('img');
+                img.src = `./${design.imageName}`;
+                img.alt = `${design.artist} style design`;
+                designImg.appendChild(img);
+                
+                const content = document.createElement('div');
+                content.className = 'design-content';
+                
+                const title = document.createElement('h3');
+                title.className = 'design-title';
+                title.textContent = `בהשראת ${design.artist}`;
+                
+                const category = document.createElement('div');
+                category.className = 'design-category';
+                category.textContent = design.category;
+                
+                const features = document.createElement('div');
+                features.className = 'design-features';
+                
+                const featuresTitle = document.createElement('h4');
+                featuresTitle.textContent = 'חלל ומאפיינים:';
+                features.appendChild(featuresTitle);
+                
+                const featuresList = document.createElement('ul');
+                featuresList.innerHTML = `<li>${design.space}</li>`;
+                design.features.forEach(feature => {
+                    const featureItem = document.createElement('li');
+                    if (feature.includes('אסטרטגיים') || feature.includes('גידים עדינים')) {
+                        const accentColor = design.accentColor;
+                        featureItem.innerHTML = `<span class="accent-dot" style="background-color: ${accentColor};"></span>${feature}`;
+                    } else {
+                        featureItem.textContent = feature;
+                    }
+                    featuresList.appendChild(featureItem);
+                });
+                features.appendChild(featuresList);
+                
+                const description = document.createElement('div');
+                description.className = 'design-description';
+                description.textContent = design.description;
+                
+                content.appendChild(title);
+                content.appendChild(category);
+                content.appendChild(features);
+                content.appendChild(description);
+                
+                card.appendChild(designImg);
+                card.appendChild(content);
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Initialize with designs
+        let currentDesigns = [...designs];
+        createDesignCards(currentDesigns);
+        
+        // Event listener for sort button
+        document.getElementById('sort-btn').addEventListener('click', () => {
+            currentDesigns.sort((a, b) => a.artist.localeCompare(b.artist));
+            createDesignCards(currentDesigns);
+        });
+    </script>
+</body>
+</html>
